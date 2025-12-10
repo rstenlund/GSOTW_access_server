@@ -7,6 +7,8 @@ const { createClient } = require("@supabase/supabase-js");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const schedule_interval = "0 0 * * 1"; // Every monday at midnight
+
 // Initialize Supabase client
 const supabase = createClient(
   process.env.SUPABASE_URL,
@@ -67,11 +69,11 @@ async function scheduledTask() {
 // '0 0 * * 6' = Every Saturday at midnight (00:00)
 // For testing every minute: '* * * * *'
 // For testing every hour: '0 * * * *'
-cron.schedule("* * * * *", scheduledTask, {
+cron.schedule(schedule_interval, scheduledTask, {
   timezone: "Europe/Stockholm",
 });
 
-console.log("Scheduled task set to run every Saturday at midnight");
+console.log("Scheduled task set to run every Monday at midnight");
 
 // Health check endpoint
 app.get("/", (req, res) => {
